@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique @db.VarChar()
+  name      String    @db.VarChar(200)
+  thumbnail String?   @db.VarChar(200)
+  active    Boolean   @default(true)
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Certificate {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(200)
+  products Product[]
+
+  @@map("certificates")
+}
+
+model Province {
+  id       Int       @id @db.Integer
+  name     String    @db.VarChar(255)
+  products Product[]
+
+  @@map("provinces")
+}
+
+model City {
+  province_id Int       @db.Integer
+  city_id     Int       @db.Integer
+  name        String    @db.VarChar(255)
+  products    Product[]
+
+  @@id([province_id, city_id])
+  @@map("cities")
+}
+
+model District {
+  province_id Int       @db.Integer
+  city_id     Int       @db.Integer
+  district_id Int       @db.Integer
+  name        String    @db.VarChar(255)
+  products    Product[]
+
+  @@id([province_id, city_id, district_id])
+  @@map("districts")
+}
+
+model Product {
+  id             Int            @id @default(autoincrement())
+  name           String         @db.VarChar(200)
+  slug           String         @unique @db.VarChar(200)
+  sku            String         @unique @db.VarChar(200)
+  price          Float          @db.DoublePrecision
+  category_id    Int            @db.Integer
+  category       Category       @relation(fields: [category_id], references: [id])
+  thumbnail      String         @db.VarChar(200)
+  certificate_id Int            @db.Integer
+  certificate    Certificate    @relation(fields: [certificate_id], references: [id])
+  subtitle       String?        @db.VarChar(200)
+  description    String         @db.Text
+  total_garage   Int            @db.Integer
+  total_toilet   Int            @db.Integer
+  total_bathroom Int            @db.Integer
+  total_floor    Int            @db.Integer
+  total_bedroom  Int            @db.Integer
+  land_length    Float          @db.DoublePrecision
+  land_width     Float          @db.DoublePrecision
+  province_id    Int            @db.Integer
+  province       Province       @relation(fields: [province_id], references: [id])
+  city_id        Int            @db.Integer
+  city           City           @relation(fields: [province_id, city_id], references: [province_id, city_id])
+  district_id    Int            @db.Integer
+  district       District       @relation(fields: [province_id, city_id, district_id], references: [province_id, city_id, district_id])
+  full_address   String         @db.Text
+  latitude       Decimal        @db.Decimal(8, 6)
+  longitude      Decimal        @db.Decimal(9, 6)
+  active         Boolean        @default(true)
+  images         ProductImage[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id         BigInt   @id @default(autoincrement())
+  product_id Int      @db.Integer
+  name       String   @db.VarChar(200)
+  product    Product? @relation(fields: [product_id], references: [id])
+
+  @@map("product_images")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique @db.VarChar(200)
+  password      String    @db.VarChar(255)
+  name          String    @db.VarChar(200)
+  phone         String    @db.VarChar(20)
+  avatar        String    @db.VarChar(200)
+  refresh_token String    @db.Text
+  type          String    @db.VarChar(20)
+  created_at    DateTime  @default(now()) @db.Timestamptz()
+  last_login_at DateTime? @db.Timestamptz()
+  orders        Order[]
+
+  @@map("users")
+}
+
+model Order {
+  id                   Int      @id @default(autoincrement())
+  order_code           String   @db.VarChar(200)
+  product_id           Int      @db.Integer
+  grand_total          Float    @db.DoublePrecision
+  user_id              Int      @db.Integer
+  payment_status       String   @db.VarChar(200)
+  payment_confirmed_at DateTime @db.Timestamptz()
+  order_status         String   @db.VarChar(200)
+  payment_receipt      String   @db.VarChar(200)
+  created_at           DateTime @default(now())
+  user                 User     @relation(fields: [user_id], references: [id])
+}
