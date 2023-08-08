@@ -1,0 +1,16 @@
+import express from "express";
+import { categoryRouter } from "../routes/category-route.js";
+import * as dotenv from 'dotenv';
+import { errorMiddleware } from "../middleware/error-middleware.js";
+
+dotenv.config();
+const api = process.env.API_PREFIX_URL;
+
+export const web = new express();
+
+web.use(express.static('public'));
+web.use(express.json());
+
+web.use(`${api}/categories`, categoryRouter);
+
+web.use(errorMiddleware);

@@ -13,9 +13,7 @@ export const logger = createLogger({
         prettyPrint()
     ),
     transports: [
-        new transports.Console(), 
-        new transports.File({
-            filename: "logs/logfile.log",
-        }),
+        new transports.Console(),
+        new transports.File({filename: 'logs/error.log', level: 'error'})
     ],
 });
