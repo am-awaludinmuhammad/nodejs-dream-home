@@ -1,18 +1,14 @@
 import { prisma } from "../config/database.js"
 
 const constant = {
-    name: {
-        category: 'test category',
-    },
-    slug: {
-        category: 'test-category'
-    }
+    name: 'name test',
+    slug: 'slug-test'
 }
 
 const findOneCategory = async () => {
     return prisma.category.findFirst({
         where: {
-            name: constant.name.category
+            name: constant.name
         }
     });
 }
@@ -20,8 +16,8 @@ const findOneCategory = async () => {
 const createCategory = async () => {
     return prisma.category.create({
         data: {
-            name: constant.name.category,
-            slug: constant.slug.category
+            name: constant.name,
+            slug: constant.slug
         }
     });
 }
@@ -29,7 +25,7 @@ const createCategory = async () => {
 const removeCategory = async () => {
     await prisma.category.deleteMany({
         where: {
-            name: constant.name.category
+            name: constant.name
         }
     });
 }

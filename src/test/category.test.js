@@ -25,7 +25,7 @@ describe(`POST ${api}/categories`, function() {
         const result = await supertest(web)
             .post(`${api}/categories`)
             .send({
-                name: constant.name.category
+                name: constant.name
             });
 
         expect(result.status).toBe(200);
@@ -35,7 +35,7 @@ describe(`POST ${api}/categories`, function() {
     it('should create new category with thumbnail', async () => {
         const result = await supertest(web)
             .post(`${api}/categories`)
-            .field('name', constant.name.category)
+            .field('name', constant.name)
             .attach('thumbnail',imageAttachment);
 
         expect(result.status).toBe(200);
@@ -78,12 +78,12 @@ describe(`PUT ${api}/categories/:id`, function() {
         result = await supertest(web)
             .put(`${api}/categories/${category.id}`)
             .send({
-                name: constant.name.category
+                name: constant.name
             });
 
         expect(result.status).toBe(200);
         expect(result.body.data).toBeDefined();
-        expect(result.body.data.name).toBe(constant.name.category);
+        expect(result.body.data.name).toBe(constant.name);
 
         result = await supertest(web)
             .put(`${api}/categories/${category.id}`)
