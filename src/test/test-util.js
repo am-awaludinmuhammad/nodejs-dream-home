@@ -1,4 +1,5 @@
 import { prisma } from "../config/database.js"
+import certificateService from "../service/certificate-service.js";
 
 const constant = {
     name: 'name test',
@@ -30,9 +31,34 @@ const removeCategory = async () => {
     });
 }
 
+const findOneCertificate = async () => {
+    return prisma.certificate.findFirst({
+        where: {
+            name: constant.name
+        }
+    });
+}
+
+const createCertificate = async () => {
+    return certificateService.create({
+        name: constant.name
+    });
+}
+
+const removeCertificate = async () => {
+    await prisma.certificate.deleteMany({
+        where: {
+            name: constant.name
+        }
+    });
+}
+
 export {
     createCategory,
     removeCategory,
     findOneCategory,
     constant,
+    findOneCertificate,
+    createCertificate,
+    removeCertificate,
 }
