@@ -1,5 +1,6 @@
 import { logger } from "../config/logger.js";
 import categoryService from "../service/category-service.js";
+import slugify from "slugify";
 
 const all = async (req, res, next) => {
     try {
@@ -15,6 +16,8 @@ const all = async (req, res, next) => {
 const create = async (req, res, next) => {
     try {
         const params = req.body;
+        params.slug = slugify(req.body.name, { lower: true });
+
         if (req.file) {
             params.thumbnail = req.file.filename;
         }

@@ -1,7 +1,6 @@
 import { prisma } from "../config/database.js"
 import { validate } from "../validation/validation.js";
 import { createCategorySchema, updateCategorySchema } from "../validation/category-validation.js";
-import slugify from "slugify";
 
 const findMany = async () => {
     return prisma.category.findMany();
@@ -9,7 +8,6 @@ const findMany = async () => {
 
 const create = async (params) => {
     const data = validate(createCategorySchema, params);
-    data.slug = slugify(data.name, { lower: true });
 
     return prisma.category.create({data});
 }
@@ -19,7 +17,7 @@ const update = async (id, params = {}) => {
 
     if (params.name) {
         data.name = params.name;
-        data.slug = slugify(params.name, { lower: true })
+        data.slug = params.slug;
     }
     
     if (params.thumbnail) {
@@ -40,9 +38,16 @@ const remove = async (id) => {
     });
 }
 
+const findBySlug = async(slug) => {
+    return await prisma.category.findFirst({
+        where: { slug: slug }
+    });
+}
+
 export default {
     findMany,
     create,
     update,
-    remove
+    remove,
+    findBySlug,
 }

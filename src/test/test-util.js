@@ -1,4 +1,5 @@
 import { prisma } from "../config/database.js"
+import categoryService from "../service/category-service.js";
 import certificateService from "../service/certificate-service.js";
 
 const constant = {
@@ -7,19 +8,13 @@ const constant = {
 }
 
 const findOneCategory = async () => {
-    return prisma.category.findFirst({
-        where: {
-            name: constant.name
-        }
-    });
+    return categoryService.findBySlug(constant.slug);
 }
 
 const createCategory = async () => {
-    return prisma.category.create({
-        data: {
-            name: constant.name,
-            slug: constant.slug
-        }
+    return categoryService.create({
+        name: constant.name,
+        slug: constant.slug
     });
 }
 
