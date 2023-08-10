@@ -30,7 +30,7 @@ const update = async (id, params = {}) => {
 }
 
 const remove = async (id) => {
-    return await prisma.certificate.delete({
+    return prisma.certificate.delete({
         where: { id: parseInt(id) }
     });
 }
