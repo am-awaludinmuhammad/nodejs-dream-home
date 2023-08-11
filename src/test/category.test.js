@@ -36,7 +36,7 @@ describe(`POST ${api}/categories`, function() {
         const result = await supertest(web)
             .post(`${api}/categories`)
             .field('name', constant.name)
-            .attach('thumbnail',imageAttachment);
+            .attach('thumbnail',imageAttachment, 'image.png');
 
         expect(result.status).toBe(200);
         expect(result.body.data).toBeDefined();
@@ -87,7 +87,7 @@ describe(`PUT ${api}/categories/:id`, function() {
 
         result = await supertest(web)
             .put(`${api}/categories/${category.id}`)
-            .attach('thumbnail',imageAttachment);
+            .attach('thumbnail',imageAttachment, 'image.png');
 
         expect(result.status).toBe(200);
     });
