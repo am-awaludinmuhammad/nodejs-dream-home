@@ -33,14 +33,20 @@ const update = async (id, params = {}) => {
 }
 
 const remove = async (id) => {
-    return await prisma.category.delete({
+    return prisma.category.delete({
         where: { id: parseInt(id) }
     });
 }
 
 const findBySlug = async(slug) => {
-    return await prisma.category.findFirst({
+    return prisma.category.findFirst({
         where: { slug: slug }
+    });
+}
+
+const findById = async(id) => {
+    return prisma.category.findUnique({
+        where: { id: parseInt(id) }
     });
 }
 
@@ -50,4 +56,5 @@ export default {
     update,
     remove,
     findBySlug,
+    findById,
 }

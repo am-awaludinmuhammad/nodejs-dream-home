@@ -36,6 +36,9 @@ const update = async (req, res, next) => {
         if (req.file) {
             params.thumbnail = req.file.filename;
         }
+        if (params.name) {
+            params.slug = slugify(params.name, { lower: true });
+        }
 
         const data = await categoryService.update(req.params.id, params);
 
@@ -51,8 +54,20 @@ const remove = async (req, res, next) => {
         await categoryService.remove(req.params.id);
 
         res.status(200).json({
+            data: {},
             message: "Success"
         });
+    } catch (error) {
+        logger.error(error.stack)
+        next(error);
+    }
+}
+
+const detail = async (req, res, next) => {
+    try {
+        const data = await categoryService.findById(req.params.id);
+
+        res.status(200).json({ data });
     } catch (error) {
         logger.error(error.stack)
         next(error);
@@ -64,4 +79,5 @@ export default {
     create,
     update,
     remove,
+    detail,
 }

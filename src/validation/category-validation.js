@@ -9,7 +9,8 @@ const createCategorySchema = Joi.object({
 const updateCategorySchema = Joi.object({
     name: Joi.string().min(1).max(200).optional(),
     slug: Joi.string().min(1).max(200).optional(),
-    thumbnail: Joi.string().max(200).optional()
+    thumbnail: Joi.string().max(200).allow(null, '').optional(),
+    active: Joi.boolean().optional(),
 });
 
 export {

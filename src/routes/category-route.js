@@ -5,9 +5,20 @@ import { uploadImage } from "../middleware/upload-img-middleware.js";
 const categoryRouter = new express.Router();
 
 categoryRouter.get('/', categoryController.all);
-categoryRouter.post('/', uploadImage.single('thumbnail'), categoryController.create);
-categoryRouter.put('/:id', uploadImage.single('thumbnail'), categoryController.update);
+categoryRouter.get('/:id', categoryController.detail);
 categoryRouter.delete('/:id', categoryController.remove);
+
+categoryRouter.post(
+    '/', 
+    uploadImage.single('thumbnail'), 
+    categoryController.create
+);
+
+categoryRouter.put(
+    '/:id', 
+    uploadImage.single('thumbnail'), 
+    categoryController.update
+);
 
 export {
     categoryRouter
