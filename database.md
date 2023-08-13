@@ -24,7 +24,6 @@
   - subtitle (varchar, 200)
   - description (text)
   - total_garage (int)
-  - total_toilet (int)
   - total_bathroom (int)
   - total_floor (int)
   - total_bedroom (int)

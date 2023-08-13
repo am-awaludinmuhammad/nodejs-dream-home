@@ -72,7 +72,6 @@ model Product {
   subtitle       String?        @db.VarChar(200)
   description    String         @db.Text
   total_garage   Int            @db.Integer
-  total_toilet   Int            @db.Integer
   total_bathroom Int            @db.Integer
   total_floor    Int            @db.Integer
   total_bedroom  Int            @db.Integer
