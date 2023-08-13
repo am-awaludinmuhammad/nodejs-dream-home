@@ -33,9 +33,15 @@ const uploadImage = {
         const upload = multer({ storage: multerSetup(), fileFilter });
         return upload.single(file);
     },
-    multiple: (files) => {
-        const upload = multer({ storage: multerSetup(), fileFilter });
-        return upload.array(files);
+    multiple: (files = []) => {
+        const upload = multer({ storage: multerSetup() });
+        const fields = []
+        files.forEach(element => {
+            fields.push({
+                name: element
+            })
+        });
+        return upload.fields(fields)
     }
 }
 
