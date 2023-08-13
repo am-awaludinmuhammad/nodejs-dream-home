@@ -1,4 +1,4 @@
-{
+const apiDocs = {
     "definition":{
         "openapi": "3.0.3",
         "info": {
@@ -25,11 +25,22 @@
                 }
             }
         ],
+        "tags": [
+            {
+                "name": "category",
+                "description": "Operation about category"
+            },
+            {
+                "name": "certificate",
+                "description": "Operation about certificate"
+            }
+        ],
         "paths": {
             "/categories": {
                 "post": {
-                    "summary": "Create Category",
-                    "description": "Create Category",
+                    "tags": ["category"],
+                    "summary": "Add new category",
+                    "description": "Add new category",
                     "consumes": "multipart/form-data",
                     "requestBody": {
                         "required": true,
@@ -85,7 +96,8 @@
                     }
                 },
                 "get": {
-                    "summary": "Fetch Categories",
+                    "tags": ["category"],
+                    "summary": "Fetch all categories",
                     "description": "Fetch all categories",
                     "responses": {
                         "200": {
@@ -128,8 +140,9 @@
             },
             "/categories/{id}": {
                 "get": {
-                    "summary": "Find Category",
-                    "description": "Category detail",
+                    "tags": ["category"],
+                    "summary": "Find single category",
+                    "description": "Find single category",
                     "parameters": [
                         {
                             "name": "id",
@@ -143,7 +156,7 @@
                     ],
                     "responses": {
                         "200": {
-                            "description": "Categories",
+                            "description": "Category",
                             "content": {
                                 "application/json": {
                                     "schema": {
@@ -177,8 +190,9 @@
                     }
                 },
                 "put": {
-                    "summary": "Update Category",
-                    "description": "Update category",
+                    "tags": ["category"],
+                    "summary": "Update single category",
+                    "description": "Update single category",
                     "consumes": "multipart/form-data",
                     "parameters": [
                         {
@@ -247,7 +261,8 @@
                     }
                 },
                 "delete": {
-                    "summary": "Delete Category",
+                    "tags": ["category"],
+                    "summary": "Delete category",
                     "description": "Delete category",
                     "parameters": [
                         {
@@ -281,8 +296,90 @@
                         }
                     }
                 }
+            },
+            "/certificates": {
+                "post": {
+                    "tags": ["certificate"],
+                    "summary": "Add new certificate",
+                    "description": "Add new certificate",
+                    "requestBody": {
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Created certificate",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "get": {
+                    "tags": ["certificate"],
+                    "summary": "Fetch all certificates",
+                    "description": "Fetch all certificates",
+                    "responses": {
+                        "200": {
+                            "description": "List of available certificates",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer"
+                                                        },
+                                                        "name": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        }   
+        }
     },
     "apis": ["../../routes/*.js"]
 }
+
+export default apiDocs

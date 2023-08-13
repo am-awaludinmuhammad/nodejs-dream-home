@@ -6,7 +6,7 @@ import { errorMiddleware } from "../middleware/error-middleware.js";
 import { productRouter } from "../routes/product-route.js";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import apiDocs from "../../docs/apidocs.json" assert { type: "json" }
+import apiDocs from "../../docs/swagger.js"
 
 dotenv.config();
 export const web = new express();
