@@ -2,17 +2,13 @@ import supertest from "supertest";
 import { web } from "../config/web.js";
 const api = process.env.API_PREFIX_URL;
 import fs from "fs";
-import { constant } from "./test-util.js";
-import productService from "../service/product-service.js"
+import { constant, removeTestRecord } from "./test-util.js";
 
 const imageAttachment = fs.readFileSync(`${__dirname}/attachments/image.png`);
 
 describe(`POST ${api}/products`, function() {
-    let id;
     afterEach(async () => {
-        if (id) {
-            await productService.remove(id);
-        }
+        await removeTestRecord('product')
     });
 
     it('should create new product', async () => {
@@ -38,9 +34,9 @@ describe(`POST ${api}/products`, function() {
             .field('full_address', 'full address')
             .field('latitude', -7.351236837188786)
             .field('longitude', 109.5836621623441)
+            .attach('images',imageAttachment, 'image.png')
             .attach('thumbnail',imageAttachment, 'image.png');
 
-        id=result.body.data.id;        
         expect(result.status).toBe(200);
     });
 });

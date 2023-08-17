@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { web } from "../config/web.js";
 const api = process.env.API_PREFIX_URL;
-import { constant, createCertificate, findOneCertificate, removeCertificate } from "./test-util.js";
+import { constant, createTestRecord, findOneTestRecord, removeTestRecord } from "./test-util.js";
 
 describe(`GET ${api}/certificates`, function() {
     it('should fetch all certificates', async () => {
@@ -16,7 +16,7 @@ describe(`GET ${api}/certificates`, function() {
 
 describe(`POST ${api}/certificates`, function() {
     afterEach(async () => {
-        await removeCertificate()
+        await removeTestRecord('certificate');
     });
     
     it('should create new certificate', async () => {
@@ -45,15 +45,15 @@ describe(`POST ${api}/certificates`, function() {
 
 describe(`PUT ${api}/certificates/:id`, function() {
     afterEach(async () => {
-        await removeCertificate()
+        await removeTestRecord('certificate');
     });
 
     beforeEach(async () => {
-        await createCertificate()
+        await createTestRecord('certificate');
     });
 
     it('should update certificate', async () => {
-        const data = await findOneCertificate();
+        const data = await findOneTestRecord('certificate');
         const name = 'name update';
 
         let result = await supertest(web)
@@ -78,7 +78,7 @@ describe(`PUT ${api}/certificates/:id`, function() {
     });
 
     it('should return 400 because update name with empty value', async () => {
-        const data = await findOneCertificate();
+        const data = await findOneTestRecord('certificate');
 
         const result = await supertest(web)
             .put(`${api}/categories/${data.id}`)
@@ -92,7 +92,7 @@ describe(`PUT ${api}/certificates/:id`, function() {
 
 describe(`DELETE ${api}/certificates/:id`, function() {
     it('should remove certificates', async () => {
-        const data = await createCertificate();
+        const data = await createTestRecord('certificate');
     
         const result = await supertest(web)
             .delete(`${api}/certificates/${data.id}`);
@@ -103,7 +103,7 @@ describe(`DELETE ${api}/certificates/:id`, function() {
 
 describe(`GET ${api}/certificates/:id`, function() {
     it('should find by id', async () => {
-        const data = await createCertificate();
+        const data = await createTestRecord('certificate');
     
         const result = await supertest(web)
             .get(`${api}/certificates/${data.id}`);

@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import { web } from "../config/web.js";
-import { removeCategory, constant, createCategory, findOneCategory } from "./test-util.js";
+import { constant, removeTestRecord, createTestRecord, findOneTestRecord } from "./test-util.js";
 import fs from "fs"
 
 const api = process.env.API_PREFIX_URL;
@@ -18,7 +18,7 @@ describe(`GET ${api}/categories`, function() {
 
 describe(`POST ${api}/categories`, function() {
     afterEach(async () => {
-        await removeCategory()
+        await removeTestRecord('category');
     });
     
     it('should create new categorie with no thumbnail', async () => {
@@ -56,15 +56,15 @@ describe(`POST ${api}/categories`, function() {
 
 describe(`PUT ${api}/categories/:id`, function() {
     afterEach(async () => {
-        await removeCategory()
+        await removeTestRecord('category');
     });
 
     beforeEach(async () => {
-        await createCategory()
+        await createTestRecord('category')
     });
 
     it('should update category', async () => {
-        const category = await findOneCategory();
+        const category = await findOneTestRecord('category');
         let result = await supertest(web)
             .put(`${api}/categories/${category.id}`)
             .send({
@@ -93,7 +93,7 @@ describe(`PUT ${api}/categories/:id`, function() {
     });
 
     it('should return 400 because update name with empty value', async () => {
-        const category = await findOneCategory();
+        const category = await findOneTestRecord('category');
 
         const result = await supertest(web)
             .put(`${api}/categories/${category.id}`)
@@ -107,7 +107,7 @@ describe(`PUT ${api}/categories/:id`, function() {
 
 describe(`DELETE ${api}/categories/:id`, function() {
     it('should remove category', async () => {
-        const category = await createCategory();
+        const category = await createTestRecord('category');
     
         const result = await supertest(web)
             .delete(`${api}/categories/${category.id}`);
