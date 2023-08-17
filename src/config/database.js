@@ -60,6 +60,20 @@ const prisma = prismaClient.$extends({
                 },
             },
         },
+        productImage: {
+            image_url: {
+                needs: {
+                    name: true
+                },
+                compute(productImage) {
+                    if (!productImage.name) {
+                        return `${IMG_URL}/default/no_image.png`;
+                    }
+
+                    return `${IMG_URL}/uploads/${productImage.name}`;
+                },
+            },
+        },
     },
 });
 
