@@ -1,4 +1,5 @@
 import multer from "multer";
+import crypto from 'crypto';
 
 const whitelist = [
     'image/png',
@@ -13,7 +14,8 @@ const multerSetup = () => {
             cb(null, 'public/images/uploads');
         },
         filename: (req, file, cb) => {
-            cb(null, `${Date.now()}_${file.originalname}`);
+            const random = crypto.randomBytes(8).toString('hex');
+            cb(null, `${Date.now()}_${random}`);
         },
     });
 
