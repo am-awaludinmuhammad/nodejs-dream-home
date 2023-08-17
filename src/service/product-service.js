@@ -6,8 +6,9 @@ import fs from "fs";
 
 const findMany = async (params = {}) => {
     // https://stackoverflow.com/questions/75947475/prisma-typeerror-do-not-know-how-to-serialize-a-bigint
-    BigInt.prototype.toJSON = function () {
+    BigInt.prototype.toJSON = () => {
         const int = Number.parseInt(this.toString());
+
         return int ?? this.toString();
     };
     
@@ -26,10 +27,6 @@ const create = async (params = {}) => {
     }
 
     return prisma.product.create({ data });
-}
-
-const update = async (params = {}) => {
-
 }
 
 const remove = async (id) => {
@@ -56,7 +53,6 @@ const findById = async (id, options = {}) => {
 export default {
     findMany,
     create,
-    update,
     remove,
     findById,
 }
