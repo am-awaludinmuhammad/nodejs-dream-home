@@ -6,7 +6,7 @@ import fs from "fs";
 
 const findMany = async (params = {}) => {
     // https://stackoverflow.com/questions/75947475/prisma-typeerror-do-not-know-how-to-serialize-a-bigint
-    BigInt.prototype.toJSON = () => {
+    BigInt.prototype.toJSON = function () {
         const int = Number.parseInt(this.toString());
 
         return int ?? this.toString();
