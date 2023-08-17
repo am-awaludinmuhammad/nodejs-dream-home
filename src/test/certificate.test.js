@@ -100,3 +100,14 @@ describe(`DELETE ${api}/certificates/:id`, function() {
         expect(result.status).toBe(200);
     });
 });
+
+describe(`GET ${api}/certificates/:id`, function() {
+    it('should find by id', async () => {
+        const data = await createCertificate();
+    
+        const result = await supertest(web)
+            .get(`${api}/certificates/${data.id}`);
+
+        expect(result.status).toBe(200);
+    });
+});
