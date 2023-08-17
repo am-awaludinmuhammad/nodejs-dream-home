@@ -5,6 +5,7 @@ const certificateRouter = new express.Router();
 
 certificateRouter.get('/', certificateController.all);
 certificateRouter.post('/', certificateController.create);
+certificateRouter.get('/:id', certificateController.findById);
 certificateRouter.put('/:id', certificateController.update);
 certificateRouter.delete('/:id', certificateController.remove);
 

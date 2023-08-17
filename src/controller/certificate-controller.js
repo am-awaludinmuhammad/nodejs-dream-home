@@ -47,9 +47,21 @@ const remove = async (req, res, next) => {
     }
 }
 
+const findById = async (req, res, next) => {
+    try {
+        const data = await certificateService.findById(req.params.id);
+        
+        res.status(200).json({ data });
+    } catch (error) {
+        logger.error(error.stack);
+        next(error);
+    }
+}
+
 export default {
     all,
     create,
     update,
     remove,
+    findById
 }

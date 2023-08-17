@@ -35,9 +35,16 @@ const remove = async (id) => {
     });
 }
 
+const findById = async (id) => {
+    return prisma.certificate.findUnique({
+        where: { id: parseInt(id) }
+    });
+}
+
 export default {
     findMany,
     create,
     update,
-    remove
+    remove,
+    findById
 }
