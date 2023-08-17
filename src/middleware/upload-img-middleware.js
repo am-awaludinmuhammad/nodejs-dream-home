@@ -15,7 +15,10 @@ const multerSetup = () => {
         },
         filename: (req, file, cb) => {
             const random = crypto.randomBytes(8).toString('hex');
-            cb(null, `${Date.now()}_${random}`);
+            let extArray = file.mimetype.split("/");
+            let extension = extArray[extArray.length - 1];
+
+            cb(null, `${Date.now()}_${random}.${extension}`);
         },
     });
 
