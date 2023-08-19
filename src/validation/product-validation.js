@@ -50,7 +50,28 @@ const updateProductSchema = Joi.object({
     longitude: Joi.number().min(1).optional(),
 });
 
+const filterProductSchema = Joi.object({
+    name: Joi.string().min(1).optional(),
+    category_id: Joi.number().min(1).optional(),
+    total_garage: Joi.number().min(1).optional(),
+    total_toilet: Joi.number().min(1).optional(),
+    total_bathroom: Joi.number().min(1).optional(),
+    total_floor: Joi.number().min(1).optional(),
+    total_bedroom: Joi.number().min(1).optional(),
+    province_id: Joi.number().min(1).optional(),
+    city_id: Joi.number().min(1).optional(),
+    district_id: Joi.number().min(1).optional(),
+    min_price: Joi.number().min(0).optional(),
+    max_price: Joi.number().min(0).optional(),
+    min_land_length: Joi.number().min(0).optional(),
+    max_land_length: Joi.number().min(0).optional(),
+    min_land_width: Joi.number().min(0).optional(),
+    max_land_width: Joi.number().min(0).optional(),
+    active: Joi.bool().optional(),
+});
+
 export {
     createProductSchema,
     updateProductSchema,
+    filterProductSchema,
 }

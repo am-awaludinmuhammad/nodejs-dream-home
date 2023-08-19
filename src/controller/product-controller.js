@@ -3,7 +3,7 @@ import productService from "../service/product-service.js";
 
 const all = async (req, res, next) => {
     try {
-        const data = await productService.findMany();
+        const data = await productService.findMany(req.query);
         
         res.status(200).json({ data });
     } catch (error) {
