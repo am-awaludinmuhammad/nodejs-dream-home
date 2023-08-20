@@ -48,6 +48,8 @@ const updateProductSchema = Joi.object({
     full_address: Joi.string().min(1).optional(),
     latitude: Joi.number().min(1).optional(),
     longitude: Joi.number().min(1).optional(),
+    remove_images: Joi.array().optional(),
+    active: Joi.boolean().optional(),
 });
 
 const filterProductSchema = Joi.object({
@@ -67,6 +69,7 @@ const filterProductSchema = Joi.object({
     min_land_width: Joi.number().min(0).optional(),
     max_land_width: Joi.number().min(0).optional(),
     active: Joi.bool().optional(),
+    order_by_price: Joi.string().min(3).max(4).optional(),
 });
 
 export {
