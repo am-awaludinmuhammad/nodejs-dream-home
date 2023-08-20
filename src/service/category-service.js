@@ -45,7 +45,7 @@ const findBySlug = async(slug) => {
 }
 
 const findById = async(id) => {
-    return prisma.category.findUnique({
+    return prisma.category.findUniqueOrThrow({
         where: { id: parseInt(id) }
     });
 }
