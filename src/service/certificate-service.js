@@ -36,7 +36,7 @@ const remove = async (id) => {
 }
 
 const findById = async (id) => {
-    return prisma.certificate.findUnique({
+    return prisma.certificate.findUniqueOrThrow({
         where: { id: parseInt(id) }
     });
 }
