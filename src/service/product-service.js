@@ -32,9 +32,6 @@ const findMany = async (filter = {}) => {
     if (params.district_id) {
         where.district_id = parseInt(params.district_id);
     }
-    if (params.hasOwnProperty('total_toilet')) {
-        where.total_toilet = parseInt(params.total_toilet);
-    }
     if (params.hasOwnProperty('total_garage')) {
         where.total_garage = parseInt(params.total_garage);
     }

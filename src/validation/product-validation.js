@@ -54,7 +54,6 @@ const filterProductSchema = Joi.object({
     name: Joi.string().min(1).optional(),
     category_id: Joi.number().min(1).optional(),
     total_garage: Joi.number().min(1).optional(),
-    total_toilet: Joi.number().min(1).optional(),
     total_bathroom: Joi.number().min(1).optional(),
     total_floor: Joi.number().min(1).optional(),
     total_bedroom: Joi.number().min(1).optional(),
