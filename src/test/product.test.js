@@ -151,6 +151,14 @@ describe(`GET ${api}/products`, function() {
         expect(result.status).toBe(200);
         expect(result.body.data).toBeDefined();
     });
+
+    it('should return 400, sending not alowed query string', async () => {
+        const result = await supertest(web)
+            .get(`${api}/products?not_alowed=true`)
+
+        expect(result.status).toBe(400);
+        expect(result.body.validation_errors.length).not.toEqual(0);
+    });
 });
 
 describe(`DELETE ${api}/products/:id`, function() {
@@ -248,6 +256,18 @@ describe(`PATCH ${api}/products/:id`, function() {
         expect(result.body.thumbnail).not.toEqual(product.thumbnail);
     }); 
 
+    it('should add product image', async () => {
+        const productTest = await findOneTestRecord('product');
+        const product = await productService.findById(productTest.id);
+
+        const result = await supertest(web)
+            .patch(`${api}/products/${product.id}`)
+            .attach('images',imageAttachment, 'image.png');
+
+        expect(result.status).toBe(200);
+        expect(result.body.data.images.length).toEqual(product.images.length + 1);
+    }); 
+
     it('should remove all product images', async () => {
         const productTest = await findOneTestRecord('product');
         const product = await productService.findById(productTest.id);
@@ -262,5 +282,18 @@ describe(`PATCH ${api}/products/:id`, function() {
 
         expect(result.status).toBe(200);
         expect(result.body.data.images.length).toEqual(0)
+    });
+
+    it('should return 400, send empty name', async () => {
+        const product = await findOneTestRecord('product');
+
+        const result = await supertest(web)
+            .patch(`${api}/products/${product.id}`)
+            .send({
+                name: ''
+            });
+
+        expect(result.status).toBe(400);
+        expect(result.body.validation_errors.length).not.toEqual(0);
     });
 });
