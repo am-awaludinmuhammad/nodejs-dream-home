@@ -114,4 +114,37 @@ describe(`DELETE ${api}/categories/:id`, function() {
 
         expect(result.status).toBe(200);
     });
+
+    it('should return 500, category not found', async () => {
+        const result = await supertest(web)
+            .delete(`${api}/categories/0`);
+
+        expect(result.status).toBe(500);
+    });
+});
+
+describe(`GET ${api}/categories`, function() {
+    afterEach(async () => {
+        await removeTestRecord('category');
+    });
+
+    beforeEach(async () => {
+        await createTestRecord('category')
+    });
+    
+    it('should find one category', async () => {
+        const category = await findOneTestRecord('category');
+        const result = await supertest(web)
+            .get(`${api}/categories/${category.id}`);
+
+        expect(result.status).toBe(200);
+        expect(result.body.data).toBeDefined();
+    });
+
+    it('should return 500, category not found', async () => {
+        const result = await supertest(web)
+            .get(`${api}/categories/0`);
+
+        expect(result.status).toBe(500);
+    });
 });
