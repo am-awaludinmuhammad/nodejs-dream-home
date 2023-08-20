@@ -131,6 +131,12 @@ const update = async (id, params) => {
         delete data.remove_images;
     }
 
+    if (data.images) {
+        data.images = {
+            create: data.images
+        }
+    }
+
     return prisma.product.update({
         where: {
             id: parseInt(id)

@@ -50,6 +50,7 @@ const updateProductSchema = Joi.object({
     longitude: Joi.number().min(1).optional(),
     remove_images: Joi.array().optional(),
     active: Joi.boolean().optional(),
+    images: Joi.array().optional()
 });
 
 const filterProductSchema = Joi.object({
