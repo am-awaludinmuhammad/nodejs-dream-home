@@ -77,16 +77,26 @@ describe(`PUT ${api}/certificates/:id`, function() {
         expect(result.body.data.name).toBe(constant.name);
     });
 
-    it('should return 400 because update name with empty value', async () => {
+    it('should return 400 because validation error', async () => {
         const data = await findOneTestRecord('certificate');
-
         const result = await supertest(web)
-            .put(`${api}/categories/${data.id}`)
+            .put(`${api}/certificates/${data.id}`)
             .send({
                 name: ''
             });
 
         expect(result.status).toBe(400);
+        expect(result.body.validation_errors).toBeDefined();
+    });
+
+    it('should return 500 because certificate not found', async () => {
+        const result = await supertest(web)
+            .put(`${api}/categories/0`)
+            .send({
+                name: 'test'
+            });
+
+        expect(result.status).toBe(500);
     });
 });
 
@@ -99,6 +109,13 @@ describe(`DELETE ${api}/certificates/:id`, function() {
 
         expect(result.status).toBe(200);
     });
+
+    it('should return 500. certificate not found', async () => {
+        const result = await supertest(web)
+            .delete(`${api}/certificates/0`);
+
+        expect(result.status).toBe(500);
+    });
 });
 
 describe(`GET ${api}/certificates/:id`, function() {
@@ -109,5 +126,12 @@ describe(`GET ${api}/certificates/:id`, function() {
             .get(`${api}/certificates/${data.id}`);
 
         expect(result.status).toBe(200);
+    });
+
+    it('should return 500, certificate not found', async () => {
+        const result = await supertest(web)
+            .get(`${api}/certificates/0`);
+
+        expect(result.status).toBe(500);
     });
 });
