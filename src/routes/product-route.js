@@ -13,5 +13,6 @@ productRouter.post(
 );
 
 productRouter.delete('/:id', productController.remove);
+productRouter.get('/:id', productController.detail);
 
 export { productRouter }

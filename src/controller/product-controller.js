@@ -64,9 +64,23 @@ const remove = async (req, res, next) => {
     }
 }
 
+const detail = async (req, res, next) => {
+    try {
+        const data = await productService.findById(req.params.id);
+
+        res.status(200).json({
+            data: data
+        });
+    } catch (error) {
+        logger.error(error.stack)
+        next(error);
+    }
+}
+
 export default {
     all,
     create,
     update,
     remove,
+    detail
 }

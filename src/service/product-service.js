@@ -1,5 +1,4 @@
 import { prisma } from "../config/database.js"
-import { setPrismaArgs } from "../utils/utils.js";
 import { createProductSchema, filterProductSchema } from "../validation/product-validation.js"
 import { validate } from "../validation/validation.js"
 import fs from "fs";
@@ -108,12 +107,12 @@ const remove = async (id) => {
     });
 }
 
-const findById = async (id, options = {}) => {
-    const args = setPrismaArgs(options);
-    
-    return prisma.product.findUnique({
-        where: { id: parseInt(id) }, 
-        ...args
+const findById = async (id) => {
+    return prisma.product.findUniqueOrThrow({
+        where: { id: parseInt(id) },
+        include: {
+            images: true
+        }
     });
 }
 
