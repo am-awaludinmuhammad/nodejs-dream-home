@@ -42,7 +42,24 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const data = await productService.update(req.params.id, req.body);
+        const params = req.body;
+        if (req.files) {
+            let {images, thumbnail} = req.files
+
+            if (thumbnail) {
+                params.thumbnail = thumbnail[0].filename;
+            }
+
+            if (images) {
+                params.images = images.map((el) => {
+                    return {
+                        name: el.filename
+                    }
+                });
+            }
+        }
+
+        const data = await productService.update(req.params.id, params);
 
         res.status(200).json({ data });
     } catch (error) {

@@ -15,4 +15,10 @@ productRouter.post(
 productRouter.delete('/:id', productController.remove);
 productRouter.get('/:id', productController.detail);
 
+productRouter.patch(
+    '/:id', 
+    uploadImage.multiple(['thumbnail', 'images']),
+    productController.update
+);
+
 export { productRouter }
